@@ -131,22 +131,25 @@
     console.log( oInput);
     //遍历
     oInput.forEach(function(item,index){
+      /* console.log(item.checked);  */
       for (var i = 0; i <oInput.length ; i++) {
        /*  oInput[i].checked = false */
-        oInput[i].onclick = function(e){          
+        oInput[i].onclick = function(e){ 
+                 
           if (this.checked) {
             console.log("选中");
-           /* this.nextSibling.classList.add("done") */
-           console.log(this.nextSibling);
+           this.nextElementSibling.classList.add("done")
+           console.log(this.nextElementSibling);
           }else{
            oInput.checked = "true" 
             console.log("未选中");
+            this.nextElementSibling.classList.remove("done")
           } 
             
         }
        }
      console.log(oInput.length);
-     console.log(oInput.checked='true'.length);
+     
      
     })
     //全选按钮
