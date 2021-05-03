@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>React App</title>
+
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="root">
+      <div class="todo-container">
+        <div id="todo-wrap">
+          <div class="todo-header">
+            <input type="text" placeholder="请输入你的任务名称，按回车键确认" />
+          </div>
+          <ul id="todo-main">
+            <li>
+              <label>
+                <input type="checkbox"  />
+                <span>做作业</span>
+              </label>
+              <button id="btn btn-danger">删除</button>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" />
+                <span>吃饭</span>
+              </label>
+              <button id="btn btn-danger">删除</button>
+            </li>
+          </ul>
+          <div id="todo-footer">
+            <label>
+              <input type="checkbox" />
+            </label>
+            <span> 已完成<strong>0</strong> / 全部<em>2</em> </span>
+            <button class="btn btn-danger">清除已完成任务</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      //数据
+      var lis=[
+          {
+              id:1,
+              name:"学习",
+              done:true
+
+          },
+          {
+              id:2,
+              name:"逛街",
+              done:true
+
+          },
+          {
+              id:3,
+              name:"化妆",
+              done:false
+
+          },
+          {
+              id:3,
+              name:"买衣服",
+              done:false
+
+          } 
+      ]
+ 
+      var oUl = document.getElementById('todo-main') 
+      var oTodo =document.getElementById('todo-footer')
+      var oTodowrap = document.getElementById("todo-wrap")
+      console.log(oUl);
+      console.log(oTodo);
+      console.log(oTodowrap);
+     
+  //1,渲染到页面上
+  if(lis.length){
+      //每次重新渲染之前，先清空当前里边的内容
+      oUl.innerHTML = "";
+        var arrstr=lis.map(function(item,index){
+            //如果有内容就添加checked以及类名
+           // console.log(this);
+            if(item.done){
+                return '<li>\
+            <label>\
+            <input type="checkbox" checked />\
+            <span class="done">'+item.name+'</span>\
+            </label>\
+            <button class="btn btn-danger">删除</button>\
+        </li>'
+
+            }else{
+            return '<li>\
+            <label>\
+            <input type="checkbox" />\
+            <span>'+item.name+'</span>\
+            </label>\
+            <button class="btn btn-danger">删除</button>\
+        </li>'
+        }     
+        })
+        //拼接并渲染到页面上
+        oUl.innerHTML = arrstr.join(" ");
+     
+        
+    }else{
+      oTodo.style.display = "none"
+      oUl.style.display = "none"
+      //创建h1节点
+      var h = document.createElement("h1")
+      h.innerHTML="恭喜您！任务已经完成!"
+      //添加节点
+      oTodowrap.append(h)
+
+    }
+    //点击删除按钮
+    var oDel = document.querySelectorAll("#todo-main li button")
+    console.log(oDel);
+    //遍历元素，绑定点击事件
+    oDel.forEach(function(item){
+      item.onclick=function(){
+        //删除
+          this.parentNode.remove()
+        }
+    })
+    //点击选中判断是否全选
+    var oInput = document.querySelectorAll("#todo-main li label input")
+    
+    console.log( oInput);
+    //遍历
+    oInput.forEach(function(item,index){
+      for (var i = 0; i <oInput.length ; i++) {
+       /*  oInput[i].checked = false */
+        oInput[i].onclick = function(e){          
+          if (this.checked) {
+            console.log("选中");
+           /* this.nextSibling.classList.add("done") */
+           console.log(this.nextSibling);
+          }else{
+           oInput.checked = "true" 
+            console.log("未选中");
+          } 
+            
+        }
+       }
+     console.log(oInput.length);
+     console.log(oInput.checked='true'.length);
+     
+    })
+    //全选按钮
+   /*  var oAll = document.querySelector("#todo-footer label input")
+    
+    oAll.onclick = function(){
+      falg = false
+     if (true) {
+        oAll.checked = "true"
+        
+      }else{        
+        oAll.checked = "false"
+        
+      } 
+      falg = !falg
+    } */
+    /* if ( oAll.checked) {
+      oInput.checked = "true"
+      console.log(1);
+     
+    
+    }else{
+      oInput.checked = "false"
+    } */
+    </script>
+  </body>
+</html>
