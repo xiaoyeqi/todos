@@ -119,43 +119,58 @@
     var oDel = document.querySelectorAll("#todo-main li button")
     console.log(oDel);
     //遍历元素，绑定点击事件
-    oDel.forEach(function(item){      
-        item.onclick=function(){
-        //删除
+     let re = oDel.length
+      oDel.forEach(function(item){      
+
+          item.onclick=function(){
+          //删除
+          re--
           this.parentNode.remove()
+          if ( !re) {
+                  oTodo.style.display = "none"
+                  oUl.style.display = "none"
+                  //创建h1节点
+                  var h = document.createElement("h1")
+                  h.innerHTML="恭喜您！任务已经完成!"
+                  //添加节点
+                  oTodowrap.append(h)
+               } 
+          }
           
-        }
-    })
+      })
   
     //点击选中判断是否全选
     var oInput = document.querySelectorAll("#todo-main li label input")
-    var oInputa = document.querySelectorAll("#todo-main li label input:checked")
+    
     var checkednum=0
     //遍历
     oInput.forEach(function(item,index){
- 
-      for (var i = 0; i <oInput.length ; i++) {
-        
-        oInput[i].onclick = function(){   
+        if (item.checked) {
+          checkednum++
+        }
+         item.onclick = function(){
+           //如果是选中状态
           if (this.checked) {
             checkednum++ 
-           // console.log("选中");
           
-           this.nextElementSibling.classList.add("done")
+          item.nextElementSibling.classList.add("done")
            
           }else{
-          //oInput.checked = true  
-            console.log("未选中");
-            this.nextElementSibling.classList.remove("done")
+          
+            checkednum--
+            item.nextElementSibling.classList.remove("done")
             
           } 
-            
-        }
-       } 
-        
+          if (oInput.length === checkednum) {
+            oAll.checked = true
+         }else{
+          oAll.checked = false
+         }
+         } 
     })
-    
-   console.log( checkednum);
+     console.log(checkednum);
+   
+     
     //全选按钮
     var oAll = document.querySelector("#todo-footer label input")
     //console.log(oAll);
@@ -163,13 +178,19 @@
       console.log(e);
       if (oAll.checked) {
       console.log(1);
-      oInput.checked = true
+      oInput.forEach(function(item,index){
+        item.checked = true
+        item.nextElementSibling.classList.add("done")
+      })
      /*  console.log(oInput.checked); */
       
      
     }else{
-      oInput.checked = false  
-      console.log(2);
+      
+      oInput.forEach(function(item,index){
+        item.checked = false
+        item.nextElementSibling.classList.remove("done")
+      })
     }
     }
     
@@ -191,13 +212,79 @@
         '
          //合并
          newli.innerHTML = listr
-       }
-       
-        //拼接并渲染到页面上
+           //拼接并渲染到页面上
        oUl.append(newli)
        oin.value = ''
+       oTodo.style.display = "block"
+        oUl.style.display = "block"
+       var h1 =  document.querySelector("#todo-wrap h1")
+       console.log(h1);
+        h1.style.display="none"
+       }
+       renwu()
+       
+        
       } 
-      
+     
+      //清楚已完成任务
+      let oDw = document.querySelector("#todo-footer button")
+      let oli = document.querySelectorAll("ul li")
+     
+      //console.log(oDw);
+      oDw.onclick = function(){
+       // console.log(1);
+        var renum = oli.length
+          oInput.forEach(function(item,index){
+            
+            if (item.checked) {
+              item.parentNode.parentNode.remove()
+              renum--
+              if (!renum) {
+                 oTodo.style.display = "none"
+                  oUl.style.display = "none"
+                  //创建h1节点
+                  var h = document.createElement("h1")
+                  h.innerHTML="恭喜您！任务已经完成!"
+                  //添加节点
+                  oTodowrap.append(h)
+              }
+            }
+          })
+          renwu()
+          
+          
+      }
+
+     //动态的展示所有任务项的个数和已经完成的任务项的个数
+     
+     //
+      function renwu() {
+        let ostrong = document.querySelector("#todo-footer span strong")
+        let oem = document.querySelector("#todo-footer span em")
+        let oli = document.querySelectorAll("ul li")
+       let  oInput = document.querySelectorAll("#todo-main li label input")
+        oem.value = oli.length
+        oem.textContent  =  oem.value
+        var onum = 0
+        oInput.forEach(function(item,index){
+          if (item.checked) {
+            onum++
+            }
+         item.onclick = function(){
+           //如果是选中状态
+          if (this.checked) {
+            onum++ 
+            ostrong.textContent  =  onum 
+          } else{
+            onum--
+            ostrong.textContent  =  onum 
+          }
+          
+        }
+        ostrong.textContent  =  onum 
+      })
+    }
+      renwu()
     </script>
   </body>
 </html>
