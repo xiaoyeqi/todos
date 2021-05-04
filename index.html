@@ -119,61 +119,85 @@
     var oDel = document.querySelectorAll("#todo-main li button")
     console.log(oDel);
     //遍历元素，绑定点击事件
-    oDel.forEach(function(item){
-      item.onclick=function(){
+    oDel.forEach(function(item){      
+        item.onclick=function(){
         //删除
           this.parentNode.remove()
+          
         }
     })
+  
     //点击选中判断是否全选
     var oInput = document.querySelectorAll("#todo-main li label input")
-    
-    console.log( oInput);
+    var oInputa = document.querySelectorAll("#todo-main li label input:checked")
+    var checkednum=0
     //遍历
     oInput.forEach(function(item,index){
-      /* console.log(item.checked);  */
+ 
       for (var i = 0; i <oInput.length ; i++) {
-       /*  oInput[i].checked = false */
-        oInput[i].onclick = function(e){ 
-                 
+        
+        oInput[i].onclick = function(){   
           if (this.checked) {
-            console.log("选中");
+            checkednum++ 
+           // console.log("选中");
+          
            this.nextElementSibling.classList.add("done")
-           console.log(this.nextElementSibling);
+           
           }else{
-           oInput.checked = "true" 
+          //oInput.checked = true  
             console.log("未选中");
             this.nextElementSibling.classList.remove("done")
+            
           } 
             
         }
-       }
-     console.log(oInput.length);
-     
-     
+       } 
+        
     })
+    
+   console.log( checkednum);
     //全选按钮
-   /*  var oAll = document.querySelector("#todo-footer label input")
-    
-    oAll.onclick = function(){
-      falg = false
-     if (true) {
-        oAll.checked = "true"
-        
-      }else{        
-        oAll.checked = "false"
-        
-      } 
-      falg = !falg
-    } */
-    /* if ( oAll.checked) {
-      oInput.checked = "true"
+    var oAll = document.querySelector("#todo-footer label input")
+    //console.log(oAll);
+    oAll.onclick=function(e){
+      console.log(e);
+      if (oAll.checked) {
       console.log(1);
+      oInput.checked = true
+     /*  console.log(oInput.checked); */
+      
      
-    
     }else{
-      oInput.checked = "false"
-    } */
+      oInput.checked = false  
+      console.log(2);
+    }
+    }
+    
+     //输入框
+     var oin = document.querySelector(".todo-header input")
+     oin.onkeydown = function(e){       
+       if (e.keyCode === 13) {
+        value = oin.value
+        //创建li
+        var newli = document.createElement("li");
+        //li的内容
+
+            var listr = '\
+            <label>\
+            <input type="checkbox" />\
+            <span>'+ value+'</span>\
+            </label>\
+            <button class="btn btn-danger">删除</button>\
+        '
+         //合并
+         newli.innerHTML = listr
+       }
+       
+        //拼接并渲染到页面上
+       oUl.append(newli)
+       oin.value = ''
+      } 
+      
     </script>
   </body>
 </html>
